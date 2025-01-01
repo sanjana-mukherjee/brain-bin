@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { compileMDX } from "next-mdx-remote/rsc";
 import hljs from "highlight.js";
 import "highlight.js/styles/night-owl.css";
 // import "highlight.js/styles/tokyo-night-dark.css";
@@ -7,6 +7,7 @@ import "highlight.js/styles/night-owl.css";
 
 import React from "react";
 import { space_mono } from "../fonts";
+import { BlogDate, Tags } from "./utils";
 
 function slugify(str: string) {
   return str
@@ -237,10 +238,37 @@ const components = {
   blockquote: Blockquote,
 };
 
-export function CustomMDX(props: { source: string }) {
+function FrontMatter({
+  title,
+  tags,
+  date,
+}: {
+  title: string;
+  tags: string[];
+  date: string;
+}) {
   return (
-    <div className="max-w-4xl font-thin leading-relaxed">
-      <MDXRemote {...props} components={components} />
-    </div>
+    <>
+      <Tags tags={tags} />
+      <BlogDate date={date} />
+    </>
+  );
+}
+
+export async function CustomMDX(props: { source: string }) {
+  const { content, frontmatter } = await compileMDX<{
+    title: string;
+    date: string;
+    tags: string[];
+  }>({
+    source: props.source,
+    options: { parseFrontmatter: true },
+    components: components,
+  });
+  return (
+    <>
+      <FrontMatter {...frontmatter} />
+      <div className="max-w-4xl font-thin leading-relaxed">{content}</div>
+    </>
   );
 }
