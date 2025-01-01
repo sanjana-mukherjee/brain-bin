@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { geistSans } from "./ui/fonts";
+import { space_grotesk } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.className} antialiased`}>{children}</body>
+      <body className={`${space_grotesk.className} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
