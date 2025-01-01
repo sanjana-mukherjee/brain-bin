@@ -162,7 +162,7 @@ function ListItem({ children }: { children: React.ReactNode }) {
 
 function Strong({ children }: { children: React.ReactNode }) {
   return (
-    <strong className="font-semibold text-yellow-100/90">{children}</strong>
+    <strong className="font-semibold text-purple-300/90">{children}</strong>
   );
 }
 
@@ -208,6 +208,15 @@ function CustomLink({
   );
 }
 
+function Blockquote({ children }: { children: React.ReactNode }) {
+  return (
+    <blockquote className="relative my-4 rounded-md bg-slate-800/50 px-8 py-4 text-sm italic text-yellow-100/90 [&>p:nth-of-type(1)]:mt-0">
+      <span className="absolute bottom-2 left-3 top-2 w-1 bg-slate-400/60" />
+      {children}
+    </blockquote>
+  );
+}
+
 const components = {
   h1: BlogH1,
   h2: BlogH2,
@@ -225,6 +234,7 @@ const components = {
   li: ListItem,
   strong: Strong,
   em: Em,
+  blockquote: Blockquote,
 };
 
 export function CustomMDX(props: { source: string }) {
