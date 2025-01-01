@@ -10,7 +10,7 @@ const TAG_COLORS = [
 
 export function Tags({ tags }: { tags: string[] }) {
   return (
-    <ul className="flex flex-wrap gap-2">
+    <ul className="flex flex-wrap gap-x-2 gap-y-3">
       {tags.map((tag, i) => (
         <li
           key={i}

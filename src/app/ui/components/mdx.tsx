@@ -24,7 +24,7 @@ function BlogH1({ children }: { children: React.ReactNode }) {
   const slug = slugify(children?.toString() || "");
 
   return (
-    <h1 className="mt-12 text-5xl font-bold text-yellow-100/90" id={slug}>
+    <h1 className="mb-4 mt-12 text-5xl font-bold text-yellow-100/90" id={slug}>
       {children}
       <BlogHeadingLink slug={slug} />
     </h1>
@@ -133,7 +133,7 @@ function CodeBlock({
 
 function Pre({ children }: { children: React.ReactNode }) {
   return (
-    <pre className="relative my-4 rounded-md bg-slate-800/50 px-8 py-4 text-sm [&>code]:rounded-none [&>code]:bg-transparent [&>code]:px-0">
+    <pre className="relative my-4 overflow-x-auto rounded-md bg-slate-800/50 px-8 py-4 text-sm [&>code]:rounded-none [&>code]:bg-transparent [&>code]:px-0">
       {children}
     </pre>
   );
@@ -248,10 +248,10 @@ function FrontMatter({
   date: string;
 }) {
   return (
-    <>
+    <div className="order-1 flex flex-col gap-8 lg:order-2">
       <Tags tags={tags} />
       <BlogDate date={date} />
-    </>
+    </div>
   );
 }
 
@@ -268,7 +268,10 @@ export async function CustomMDX(props: { source: string }) {
   return (
     <>
       <FrontMatter {...frontmatter} />
-      <div className="max-w-4xl font-thin leading-relaxed">{content}</div>
+      <div className="order-2 font-thin leading-relaxed lg:order-1">
+        Blogs / Markdown Guide
+        {content}
+      </div>
     </>
   );
 }
