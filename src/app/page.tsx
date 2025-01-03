@@ -1,10 +1,12 @@
-import Link from "next/link";
+import { LatestBlogs } from "./ui/components/blog/preview";
 
 export default function Home() {
   return (
     <main>
-      <h1>Brain Bin</h1>
-      <Link href="/blog/mock">Mock Page</Link>
+      <h2 className="text-5xl font-bold text-yellow-100/90">Latest Blogs</h2>
+      <div className="mt-12">
+        <LatestBlogs />
+      </div>
     </main>
   );
 }

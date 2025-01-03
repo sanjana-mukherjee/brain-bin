@@ -5,8 +5,28 @@ tags:
   - Tailwind CSS
   - CSS Frameworks
   - Frontend Development
-  - Tailwind
-  - Frontend
+summary: |
+  - **Unexpected Behavior:** Applying `Pick` to `any` results in `any`, ignoring specified keys.  
+    Example: `type Result = Pick<any, 'key'>; // any`.
+  - **Reason:** `any` lacks structure, so utility types cannot enforce property selection.
+  - **Solution:** Avoid `any` by using specific types or `unknown`, validate input types, or use conditional types for fallback.  
+  - **Takeaway:** Use explicit types to maintain type safety and leverage TypeScript's full potential.
+code: |
+  ```ts
+  // Array and map
+  const colors: Color[] = [Color.Red, Color.Green, Color.Blue];
+  const colorMap: Map<string, Color> = new Map([
+    ["red", Color.Red],
+    ["green", Color.Green],
+    ["blue", Color.Blue],
+  ]);
+
+  // Asynchronous function and promise
+  async function fetchData(url: string): Promise<string> {
+    const response = await fetch(url);
+    return response.text();
+  }
+  ```
 ---
 
 # Markdown Guide - Exploring the Space
@@ -60,6 +80,12 @@ For centuries, `const point: [number, number] = [10, 20];` humans have gazed at 
 ###### Future Prospects
 
 Humans have gazed at the stars and dreamed of exploring the cosmos. This guide will take you through some fascinating [aspects](https://www.google.com) of space exploration. Space exploration for centuries, humans have gazed at the stars and dreamed of exploring the cosmos. This guide will take you through some fascinating aspects of space exploration.
+
+- **Unexpected Behavior:** Applying `Pick` to `any` results in `any`, ignoring specified keys.  
+  Example: `type UnexpectedBehavior = UnexpectedBehaviorUnexpectedBehavior<any, 'UnexpectedBehaviorUnexpectedBehaviorUnexpectedBehavior'>; // any is unexpected behavior`.
+- **Reason:** `any` lacks structure, so utility types cannot enforce property selection.
+- **Solution:** Avoid `any` by using specific types or `unknown`, validate input types, or use conditional types for fallback.
+- **Takeaway:** Use explicit types to maintain type safety and leverage TypeScript's full potential.
 
 ### Early Achievements
 

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { compileMDX } from "next-mdx-remote/rsc";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import hljs from "highlight.js";
 import "highlight.js/styles/night-owl.css";
 // import "highlight.js/styles/tokyo-night-dark.css";
 // import "highlight.js/styles/rose-pine.css";
 
-import React from "react";
+import React, { JSXElementConstructor, ReactElement } from "react";
 import { space_mono } from "../fonts";
 import { BlogDate, Tags } from "./utils";
 
@@ -133,7 +133,7 @@ function CodeBlock({
 
 function Pre({ children }: { children: React.ReactNode }) {
   return (
-    <pre className="relative my-4 overflow-x-auto rounded-md bg-slate-800/50 px-8 py-4 text-sm [&>code]:rounded-none [&>code]:bg-transparent [&>code]:px-0">
+    <pre className="relative my-4 overflow-x-auto rounded-md bg-slate-800/50 px-8 py-4 text-sm [&_code]:rounded-none [&_code]:bg-transparent [&_code]:px-0">
       {children}
     </pre>
   );
@@ -158,7 +158,7 @@ function OrderedList({ children }: { children: React.ReactNode }) {
 }
 
 function ListItem({ children }: { children: React.ReactNode }) {
-  return <li className="">{children}</li>;
+  return <li className="mt-1.5">{children}</li>;
 }
 
 function Strong({ children }: { children: React.ReactNode }) {
@@ -218,7 +218,7 @@ function Blockquote({ children }: { children: React.ReactNode }) {
   );
 }
 
-const components = {
+export const components = {
   h1: BlogH1,
   h2: BlogH2,
   h3: BlogH3,
@@ -238,15 +238,7 @@ const components = {
   blockquote: Blockquote,
 };
 
-function FrontMatter({
-  title,
-  tags,
-  date,
-}: {
-  title: string;
-  tags: string[];
-  date: string;
-}) {
+function FrontMatter({ tags, date }: { tags: string[]; date: string }) {
   return (
     <div className="order-1 flex flex-col gap-8 lg:order-2">
       <Tags tags={tags} />
@@ -255,16 +247,23 @@ function FrontMatter({
   );
 }
 
-export async function CustomMDX(props: { source: string }) {
-  const { content, frontmatter } = await compileMDX<{
+export function CustomMDX({ source }: { source: string }) {
+  return <MDXRemote source={source} components={components} />;
+}
+
+export async function RenderMDX({
+  frontmatter,
+  content,
+}: {
+  frontmatter: {
     title: string;
     date: string;
     tags: string[];
-  }>({
-    source: props.source,
-    options: { parseFrontmatter: true },
-    components: components,
-  });
+    code: string;
+    summary: string;
+  };
+  content: ReactElement<unknown, string | JSXElementConstructor<unknown>>;
+}) {
   return (
     <>
       <FrontMatter {...frontmatter} />

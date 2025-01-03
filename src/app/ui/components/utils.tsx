@@ -8,13 +8,19 @@ const TAG_COLORS = [
   "text-pink-400 bg-pink-400/10",
 ];
 
-export function Tags({ tags }: { tags: string[] }) {
+export function Tags({
+  tags,
+  variant = "normal",
+}: {
+  tags: string[];
+  variant?: "small" | "normal";
+}) {
   return (
     <ul className="flex flex-wrap gap-x-2 gap-y-3">
       {tags.map((tag, i) => (
         <li
           key={i}
-          className={`rounded-full px-4 py-1 text-sm font-thin ${TAG_COLORS[i % TAG_COLORS["length"]]}`}
+          className={`rounded-full px-4 py-1 ${variant === "small" ? "text-xs" : "text-sm"} font-thin ${TAG_COLORS[i % TAG_COLORS["length"]]}`}
         >
           {tag}
         </li>
