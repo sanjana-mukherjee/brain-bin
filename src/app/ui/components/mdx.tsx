@@ -24,7 +24,7 @@ function BlogH1({ children }: { children: React.ReactNode }) {
   const slug = slugify(children?.toString() || "");
 
   return (
-    <h1 className="mb-4 mt-12 text-5xl font-bold text-yellow-100/90" id={slug}>
+    <h1 className="mb-4 text-5xl font-bold text-yellow-100/90" id={slug}>
       {children}
       <BlogHeadingLink slug={slug} />
     </h1>
@@ -268,7 +268,6 @@ export async function RenderMDX({
     <>
       <FrontMatter {...frontmatter} />
       <div className="order-2 font-thin leading-relaxed lg:order-1">
-        Blogs / Markdown Guide
         {content}
       </div>
     </>
