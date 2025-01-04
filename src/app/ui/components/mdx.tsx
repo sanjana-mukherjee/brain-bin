@@ -24,7 +24,10 @@ function BlogH1({ children }: { children: React.ReactNode }) {
   const slug = slugify(children?.toString() || "");
 
   return (
-    <h1 className="mb-4 text-5xl font-bold text-yellow-100/90" id={slug}>
+    <h1
+      className="mb-4 text-5xl font-bold text-yellow-100/90 [&_code]:text-inherit [&_code]:[font-size:inherit]"
+      id={slug}
+    >
       {children}
       <BlogHeadingLink slug={slug} />
     </h1>
@@ -35,7 +38,10 @@ function BlogH2({ children }: { children: React.ReactNode }) {
   const slug = slugify(children?.toString() || "");
 
   return (
-    <h2 className="mt-10 text-3xl font-bold italic text-lime-200/90" id={slug}>
+    <h2
+      className="mt-10 text-3xl font-bold italic text-lime-200/90 [&_code]:italic [&_code]:text-inherit [&_code]:[font-size:inherit]"
+      id={slug}
+    >
       {children}
       <BlogHeadingLink slug={slug} />
     </h2>
@@ -47,7 +53,7 @@ function BlogH3({ children }: { children: React.ReactNode }) {
 
   return (
     <h3
-      className="mt-8 text-2xl font-semibold italic text-teal-200/90"
+      className="mt-8 text-2xl font-semibold italic text-teal-200/90 [&_code]:italic [&_code]:text-inherit [&_code]:[font-size:inherit]"
       id={slug}
     >
       {children}
@@ -61,7 +67,7 @@ function BlogH4({ children }: { children: React.ReactNode }) {
 
   return (
     <h4
-      className="mt-7 text-xl font-medium italic text-purple-300/90"
+      className="mt-7 text-xl font-medium italic text-purple-300/90 [&_code]:italic [&_code]:text-inherit [&_code]:[font-size:inherit]"
       id={slug}
     >
       {children}
@@ -75,7 +81,7 @@ function BlogH5({ children }: { children: React.ReactNode }) {
 
   return (
     <h5
-      className="mt-6 text-lg font-normal italic text-orange-200/90"
+      className="mt-6 text-lg font-normal italic text-orange-200/90 [&_code]:italic [&_code]:text-inherit [&_code]:[font-size:inherit]"
       id={slug}
     >
       {children}
@@ -88,7 +94,10 @@ function BlogH6({ children }: { children: React.ReactNode }) {
   const slug = slugify(children?.toString() || "");
 
   return (
-    <h6 className="mt-6 text-base font-normal italic text-pink-400" id={slug}>
+    <h6
+      className="mt-6 text-base font-normal italic text-pink-400 [&_code]:italic [&_code]:text-inherit [&_code]:[font-size:inherit]"
+      id={slug}
+    >
       {children}
       <BlogHeadingLink slug={slug} />
     </h6>
@@ -117,15 +126,14 @@ function CodeBlock({
   children: React.ReactNode;
   className?: string;
 }) {
-  const language = className?.replace("language-", "") || "";
-  const highlighted = hljs.highlightAuto(
-    children?.toString() || "",
-    language ? [language] : undefined,
-  ).value;
+  const language = className?.replace("language-", "") || "text";
+  const highlighted = hljs.highlightAuto(children?.toString() || "", [
+    language,
+  ]).value;
 
   return (
     <code
-      className={`${space_mono.className} ${className} mx-0.5 rounded bg-slate-700/50 px-2 text-sm`}
+      className={`${space_mono.className} ${className} mx-0.5 rounded bg-slate-700/50 px-2 text-sm ${language === "text" ? "text-yellow-100/90" : ""}`}
       dangerouslySetInnerHTML={{ __html: highlighted }}
     />
   );
@@ -162,13 +170,11 @@ function ListItem({ children }: { children: React.ReactNode }) {
 }
 
 function Strong({ children }: { children: React.ReactNode }) {
-  return (
-    <strong className="font-semibold text-purple-300/90">{children}</strong>
-  );
+  return <strong className="font-semibold text-orange-300">{children}</strong>;
 }
 
 function Em({ children }: { children: React.ReactNode }) {
-  return <em className="italics text-orange-300">{children}</em>;
+  return <em className="italics text-purple-300/90">{children}</em>;
 }
 
 function CustomLink({
