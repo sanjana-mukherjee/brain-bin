@@ -3,8 +3,23 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import path from "path";
 import { components } from "../ui/components/mdx";
 
-function getMDXFiles(dir: string) {
-  return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
+function getAllMDXFiles(
+  dir: string,
+  subDirs: string[] = [],
+): { fileName: string; subDirs: string[] }[] {
+  const entries = fs.readdirSync(path.join(dir, ...subDirs), {
+    withFileTypes: true,
+  });
+
+  const mdxFiles = entries
+    .filter((entry) => entry.isFile() && path.extname(entry.name) === ".mdx")
+    .map((file) => ({ fileName: file.name, subDirs }));
+
+  const subDirFiles = entries
+    .filter((entry) => entry.isDirectory())
+    .flatMap((subDir) => getAllMDXFiles(dir, [...subDirs, subDir.name]));
+
+  return [...mdxFiles, ...subDirFiles];
 }
 
 function readMDXFile(filePath: string) {
@@ -24,14 +39,14 @@ async function getMDXData(rawContent: string) {
 }
 
 async function fetchPosts(dir: string) {
-  const mdxFiles = getMDXFiles(dir);
+  const mdxFiles = getAllMDXFiles(dir);
   return Promise.all(
-    mdxFiles.map(async (fileName) => {
-      const rawContent = readMDXFile(path.join(dir, fileName));
+    mdxFiles.map(async ({ fileName, subDirs }) => {
+      const rawContent = readMDXFile(path.join(dir, ...subDirs, fileName));
       const { frontmatter, content } = await getMDXData(rawContent);
       const slug = path.basename(fileName, path.extname(fileName));
 
-      return { slug, frontmatter, content };
+      return { slug, frontmatter, content, subDirs };
     }),
   );
 }
