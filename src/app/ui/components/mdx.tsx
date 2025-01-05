@@ -141,7 +141,7 @@ function CodeBlock({
 
 function Pre({ children }: { children: React.ReactNode }) {
   return (
-    <pre className="scrollbar-thin scrollbar-thumb-slate-700/80 scrollbar-track-slate-800/50 relative my-4 overflow-x-auto rounded-md bg-slate-800/50 px-8 py-4 text-sm [&_code]:rounded-none [&_code]:bg-transparent [&_code]:px-0">
+    <pre className="relative my-4 overflow-x-auto rounded-md bg-slate-800/50 px-8 py-4 text-sm scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-slate-700/80 [&_code]:rounded-none [&_code]:bg-transparent [&_code]:px-0">
       {children}
     </pre>
   );
