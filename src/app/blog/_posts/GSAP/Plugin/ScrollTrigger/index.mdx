@@ -1,0 +1,221 @@
+---
+title: ScrollTrigger
+tags:
+  - GSAP
+  - CSS
+  - Animations
+  - ScrollTrigger
+  - Scroll based animations
+date: 01-03-2025
+code: |
+  ```ts
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(".b", {
+    x: 600,
+    rotate: 270,
+    duration: 6,
+    scrollTrigger: {
+      trigger: ".b",
+      // toggleActions: "onEnter onLeave onEnterBack onLeaveBack"
+      toggleActions: "play pause reverse pause",
+    },
+  });
+  ```
+summary: |
+  - **Unexpected Behavior:** Applying `Pick` to `any` results in `any`, ignoring specified keys.  
+    Example: `type Result = Pick<any, 'key'>; // any`.
+  - **Reason:** `any` lacks structure, so utility types cannot enforce property selection.
+  - **Solution:** Avoid `any` by using specific types or `unknown`, validate input types, or use conditional types for fallback.  
+  - **Takeaway:** Use explicit types to maintain type safety and leverage TypeScript's full potential.
+---
+
+# ScrollTrigger
+
+## Usage
+
+Consider the case where we have some animation on an element that is not yet visible on the screen. If we simply use gsap.to() method, then the animation would have already started by the time we reach there. To make the animation start just when the element is in view, we can use the ScrollTrigger plugin.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+gsap.to(".c", {
+  x: 400,
+  rotate: 270,
+  duration: 3,
+  scrollTrigger: ".c",
+});
+```
+
+## Toggle Actions
+
+**String** - Determines how the linked animation is controlled at the 4 distinct toggle places - **onEnter**, **onLeave**, **onEnterBack**, and **onLeaveBack**, in that order.
+
+The default is `play none none none`. So `toggleActions: "play pause resume reset"` will play the animation when entering, pause it when leaving, resume it when entering again backwards, and reset (rewind back to the beginning) when scrolling all the way back past the beginning.
+
+You can use any of the following keywords for each action: _"play"_, _"pause"_, _"resume"_, _"reset"_, _"restart"_, _"complete"_, _"reverse"_, and _"none"_.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".b", {
+  x: 600,
+  rotate: 270,
+  duration: 6,
+  scrollTrigger: {
+    trigger: ".b",
+    // toggleActions: "onEnter onLeave onEnterBack onLeaveBack"
+    toggleActions: "play pause reverse pause",
+  },
+});
+```
+
+## `start` and `end`
+
+### `markers`
+
+**Object | Boolean** - Adds markers that are helpful during development/troubleshooting.
+
+`markers: true` adds them with the defaults `(startColor: "green", endColor: "red", fontSize: "16px", fontWeight: "normal", indent: 0)` but you can customize them by using an object like:
+
+```jsx
+markers: {startColor: "white", endColor: "white", fontSize: "18px", fontWeight: "bold", indent: 20}
+```
+
+## `start`
+
+**String | Number | Function** - Determines the starting position of the ScrollTrigger.
+
+It can be any of the following:
+
+### String
+
+Describes a place on the trigger and a place on the scroller that must meet in order to start the ScrollTrigger.
+
+So, for example, 
+
+- **`"top center"`** means *"when the top of the trigger hits the center of the scroller"* (and the scroller is the viewport by default).
+
+  ```js
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(".b", {
+    x: 600,
+    rotate: 270,
+    duration: 6,
+    scrollTrigger: {
+      trigger: ".b",
+      toggleActions: "play pause reverse pause",
+      markers: true,
+      start: "top center",
+    },
+  });
+  ```
+
+- **`"bottom 80%"`** means *"when the bottom of the trigger hits 80% down from the top of the viewport"* (assuming vertical scroll).
+
+  ```ts
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(".b", {
+    x: 600,
+    rotate: 270,
+    duration: 6,
+    scrollTrigger: {
+      trigger: ".b",
+      toggleActions: "play pause reverse pause",
+      markers: true,
+      // start: "80px 100px",
+      start: "50% 70%",
+    },
+  });
+  ```
+
+You can use keywords like _"top"_, _"bottom"_, _"center"_ (or _"left"_ and _"right"_ if `horizontal: true`) or percentages like _"80%"_ or pixel values like _"100px"_. Percentages and pixels are always relative to the top/left of the element/scroller.
+
+You can even use a complex relative value like `"top bottom-=100px"` which means _"when the top of the trigger hits 100px above the bottom of the viewport/scroller"_.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".b", {
+  x: 600,
+  rotate: 270,
+  duration: 6,
+  scrollTrigger: {
+    trigger: ".b",
+    toggleActions: "play pause reverse pause",
+    markers: true,
+    start: "bottom-=20px center+=10%",
+  },
+});
+```
+
+### Number
+
+An exact scroll value, so _200_ would trigger when the viewport/scroller scrolls by exactly 200 pixels.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".b", {
+  x: 600,
+  rotate: 270,
+  duration: 6,
+  scrollTrigger: {
+    trigger: ".b",
+    toggleActions: "play pause reverse pause",
+    markers: true,
+    start: 250,
+  },
+});
+```
+
+### Function
+
+A function that gets called whenever the ScrollTrigger calculates its positions (typically upon creation and any time the scroller resizes). It should return a String or Number, as described above. This makes it easy to dynamically calculate values.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".b", {
+  x: 600,
+  rotate: 270,
+  duration: 6,
+  scrollTrigger: {
+    trigger: ".b",
+    toggleActions: "play pause reverse pause",
+    markers: true,
+    // You can omit the + " center" as well then the scroll start will go to top
+    start: () => "+=" + document.querySelector(".b").offsetWidth + " center",
+  },
+});
+```
+
+Like all callbacks, the function receives the `ScrollTrigger` instance itself as the only parameter, so you can, for example, base the position on the previous `ScrollTrigger`'s end like `start: self => self.previous().end`.
+
+## `end`
+
+**String | Number | Function** - Determines the ending position of the ScrollTrigger.
+
+It can be any of the following:
+
+- **String** - Describes a place on the **endTrigger** (or trigger if one isn't defined) and a place on the **scroller** that must meet in order to end the ScrollTrigger. So, for example, `"bottom center"` means _"when the bottom of the endTrigger hits the center of the scroller"_. `"center 100px"` means _"when the center of the endTrigger hits 100px down from the top of the scroller"_ (assuming vertical scroll). You can use keywords like "top", "bottom", "center" (or "left" and "right" if `horizontal: true`) or percentages like "80%" or pixel values like "100px". Percentages and pixels are always relative to the top/left of the element/viewport. You can also define a single relative value like "+=300" which means _"300px beyond where the start is"_, or "+=100%" means _"the height of the scroller beyond where the start is"._ `"max"` is a special keyword indicating the maximum scroll position.
+- **Number** - An exact scroll value, so `200` would trigger when the viewport/scroller scrolls by exactly 200 pixels.
+- **Function** - A function that gets called whenever the ScrollTrigger refreshes and calculates its positions (typically upon creation and any time the scroller resizes). It should return a String or Number, as described above. This makes it easy to dynamically calculate values. Like all callbacks, the function receives the ScrollTrigger instance itself as the only parameter.
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".b", {
+  x: 600,
+  rotate: 270,
+  duration: 6,
+  scrollTrigger: {
+    trigger: ".b",
+    toggleActions: "play pause reverse pause",
+    markers: true,
+    start: "90 center",
+    end: "bottom bottom",
+  },
+});
+```
