@@ -3,7 +3,7 @@ import { CustomMDX } from "../mdx";
 import { BlogDate, Tags } from "../utils";
 import Link from "next/link";
 
-export function PreviewCard({
+export function PreviewDisplay({
   slug,
   title,
   tags,
@@ -44,10 +44,66 @@ export function PreviewCard({
   );
 }
 
-export async function LatestBlogs() {
-  const posts = await getBlogPosts();
+export function PreviewCard({
+  slug,
+  title,
+  tags,
+  date,
+  code,
+  summary,
+}: {
+  slug: string;
+  title: string;
+  tags: string[];
+  date: string;
+  code: string;
+  summary: string;
+}) {
   return (
-    <div className="grid grid-cols-1 gap-16 divide-y divide-slate-800">
+    <Link
+      href={`/blog/${slug}`}
+      className="group h-full grayscale transition hover:grayscale-0"
+    >
+      <div className="flex h-full flex-col rounded-md border-2 border-slate-800/50 [&>pre]:mt-0">
+        <div className="[&>pre]:my-0 [&>pre]:h-56 [&>pre]:overflow-hidden [&_code]:inline-block [&_code]:-translate-x-10 [&_code]:-translate-y-10 [&_code]:-rotate-12 [&_code]:opacity-70 [&_pre]:rounded-b-none">
+          <CustomMDX source={code} />
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-4">
+          <h3 className="line-clamp-2 text-xl font-semibold italic text-teal-200/90">
+            {title}
+          </h3>
+          <BlogDate date={date} />
+          <div className="my-4 line-clamp-3 text-sm font-thin text-slate-400 [&_code]:mx-0 [&_code]:text-xs [&_ul]:m-0 [&_ul]:p-0">
+            <CustomMDX source={summary} />
+          </div>
+          <div className="mt-auto">
+            <Tags tags={tags} variant={"small"} />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export async function LatestBlogs({
+  type = "display",
+}: {
+  type: "display" | "preview";
+}) {
+  const posts = await getBlogPosts();
+
+  if (type === "display") {
+    return (
+      <div className="grid grid-cols-1 gap-16 divide-y divide-slate-800">
+        {posts.map(({ slug, frontmatter }) => (
+          <PreviewDisplay key={slug} {...frontmatter} slug={slug} />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-5">
       {posts.map(({ slug, frontmatter }) => (
         <PreviewCard key={slug} {...frontmatter} slug={slug} />
       ))}

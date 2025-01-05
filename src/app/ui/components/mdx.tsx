@@ -8,6 +8,7 @@ import "highlight.js/styles/night-owl.css";
 import React, { JSXElementConstructor, ReactElement } from "react";
 import { space_mono } from "../fonts";
 import { BlogDate, Tags } from "./utils";
+import { LatestBlogs } from "./blog/preview";
 
 function slugify(str: string) {
   return str
@@ -249,6 +250,9 @@ function FrontMatter({ tags, date }: { tags: string[]; date: string }) {
     <div className="order-1 flex flex-col gap-8 lg:order-2">
       <Tags tags={tags} />
       <BlogDate date={date} />
+      <div className="hidden lg:block">
+        <LatestBlogs type="preview" />
+      </div>
     </div>
   );
 }
