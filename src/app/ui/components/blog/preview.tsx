@@ -88,7 +88,7 @@ export function PreviewCard({
 export async function LatestBlogs({
   type = "display",
 }: {
-  type: "display" | "preview";
+  type?: "display" | "preview";
 }) {
   const posts = await getBlogPosts();
 
