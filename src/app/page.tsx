@@ -1,12 +1,9 @@
-import { LatestBlogs } from "./ui/components/blog/preview";
+import Link from "next/link";
 
-export default function Home() {
+export default function Page() {
   return (
-    <main>
-      <h2 className="text-5xl font-bold text-yellow-100/90">Latest Blogs</h2>
-      <div className="mt-12">
-        <LatestBlogs />
-      </div>
-    </main>
+    <Link href="/blog" className="text-sky-400 hover:underline">
+      Blogs
+    </Link>
   );
 }
