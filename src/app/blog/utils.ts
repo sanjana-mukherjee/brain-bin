@@ -44,7 +44,8 @@ async function fetchPosts(dir: string) {
     mdxFiles.map(async ({ fileName, subDirs }) => {
       const rawContent = readMDXFile(path.join(dir, ...subDirs, fileName));
       const { frontmatter, content } = await getMDXData(rawContent);
-      const slug = path.basename(fileName, path.extname(fileName));
+      const fileNameWOExt = path.basename(fileName, path.extname(fileName));
+      const slug = [...subDirs, fileNameWOExt].join("/");
 
       return { slug, frontmatter, content, subDirs };
     }),
@@ -57,7 +58,8 @@ export async function getBlogPosts() {
   return blogPosts;
 }
 
-export async function getBlogPost(slug: string) {
+export async function getBlogPost(slugs: string[]) {
   const blogPosts = await getBlogPosts();
+  const slug = slugs.join("/");
   return blogPosts.find((blog) => blog.slug === slug);
 }

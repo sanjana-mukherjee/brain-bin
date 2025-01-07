@@ -1,15 +1,13 @@
 import { RenderMDX } from "@/app/ui/components/mdx";
 import { getBlogPost } from "../utils";
-import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/app/ui/components/utils";
 
 export default async function Page(props: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await props.params;
   const blog = await getBlogPost(slug);
   if (!blog) {
-    notFound();
   }
   const { content, frontmatter, subDirs } = blog;
 
