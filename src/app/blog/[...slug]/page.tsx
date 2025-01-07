@@ -1,6 +1,7 @@
 import { RenderMDX } from "@/app/ui/components/mdx";
 import { getBlogPost } from "../utils";
 import { Breadcrumbs } from "@/app/ui/components/utils";
+import Structure from "@/app/ui/components/structure";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
@@ -8,6 +9,7 @@ export default async function Page(props: {
   const { slug } = await props.params;
   const blog = await getBlogPost(slug);
   if (!blog) {
+    return <Structure slug={slug} />;
   }
   const { content, frontmatter, subDirs } = blog;
 
