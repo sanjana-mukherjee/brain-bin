@@ -55,7 +55,7 @@ export function Breadcrumbs({
     (crumbs, { label, path, active }, index) => [
       ...crumbs,
       {
-        label: label,
+        label: decodeURIComponent(label),
         href:
           (crumbs[crumbs["length"] - 1]?.href || "") +
           "/" +

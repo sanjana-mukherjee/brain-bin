@@ -59,17 +59,18 @@ export async function getBlogPosts() {
   return blogPosts;
 }
 
-export async function getBlogPost(slugs: string[]) {
+export async function getBlogPost(rawSlug: string[]) {
   const blogPosts = await getBlogPosts();
-  const slug = slugs.join("/");
-  return blogPosts.find((blog) => blog.slug === slug);
+  const slug = rawSlug.map((s) => decodeURIComponent(s)).join("/");
+  return blogPosts.find(
+    (blog) => blog.slug === slug || blog.slug === `${slug}/index`,
+  );
 }
 
 export interface DirStructure {
-  [x: string]: {
-    files: string[];
-    folders: DirStructure[];
-  };
+  name: string;
+  files: string[];
+  folders: DirStructure[];
 }
 
 function getSubDirStructure(dir: string): DirStructure {
@@ -81,16 +82,21 @@ function getSubDirStructure(dir: string): DirStructure {
 
   const mdxFiles = entries
     .filter((entry) => entry.isFile() && path.extname(entry.name) === ".mdx")
-    .map((file) => file.name);
+    .map((file) => path.basename(file.name, path.extname(file.name)));
 
   const subDirStructure = entries
     .filter((entry) => entry.isDirectory())
     .map((subDir) => getSubDirStructure(path.join(dir, subDir.name)));
 
-  return { [dirName]: { files: mdxFiles, folders: subDirStructure } };
+  return {
+    name: dirName,
+    files: mdxFiles,
+    folders: subDirStructure,
+  };
 }
 
-export function getDirStructure(slug: string[]) {
+export function getDirStructure(rawSlug: string[]) {
+  const slug = rawSlug.map((s) => decodeURIComponent(s));
   const pathName = path.join(BLOG_DIR, ...slug);
   return getSubDirStructure(pathName);
 }

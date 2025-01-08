@@ -20,7 +20,7 @@ export default function RootLayout({
         <nav className="bg-slate-800/50 px-10 py-6">
           <div className="h-4 w-32 rounded bg-slate-400/80"></div>
         </nav>
-        <div className="sm mx-auto my-16 max-w-6xl flex-1 px-4 sm:px-8 md:px-12">
+        <div className="sm mx-auto my-16 w-full max-w-6xl flex-1 px-4 sm:px-8 md:px-12">
           {children}
         </div>
         <div className="bg-slate-800/50 px-10 pb-8 pt-14">

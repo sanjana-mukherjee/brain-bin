@@ -18,7 +18,7 @@ export default async function Page(props: {
       <Breadcrumbs
         breadcrumbs={[
           { label: "Blog", path: "blog" },
-          ...subDirs.map((dir) => ({ label: dir })),
+          ...slug.map((dir) => ({ label: dir })),
         ]}
       />
       <div className="grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,2.5fr)_1fr] lg:gap-x-10 xl:gap-x-16">
