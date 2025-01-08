@@ -7,8 +7,6 @@ import "highlight.js/styles/night-owl.css";
 
 import React, { JSXElementConstructor, ReactElement } from "react";
 import { space_mono } from "../fonts";
-import { BlogDate, Tags } from "./utils";
-import { LatestBlogs } from "./blog/preview";
 
 function slugify(str: string) {
   return str
@@ -245,41 +243,18 @@ export const components = {
   blockquote: Blockquote,
 };
 
-function FrontMatter({ tags, date }: { tags: string[]; date: string }) {
-  return (
-    <div className="order-1 flex flex-col gap-8 lg:order-2">
-      <Tags tags={tags} />
-      <BlogDate date={date} />
-      <div className="hidden lg:block">
-        <LatestBlogs type="preview" />
-      </div>
-    </div>
-  );
-}
-
 export function CustomMDX({ source }: { source: string }) {
   return <MDXRemote source={source} components={components} />;
 }
 
 export async function RenderMDX({
-  frontmatter,
   content,
 }: {
-  frontmatter: {
-    title: string;
-    date: string;
-    tags: string[];
-    code: string;
-    summary: string;
-  };
   content: ReactElement<unknown, string | JSXElementConstructor<unknown>>;
 }) {
   return (
-    <>
-      <FrontMatter {...frontmatter} />
-      <div className="order-2 font-thin leading-relaxed lg:order-1">
-        {content}
-      </div>
-    </>
+    <div className="order-2 font-thin leading-relaxed lg:order-1">
+      {content}
+    </div>
   );
 }

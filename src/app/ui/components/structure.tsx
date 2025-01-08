@@ -1,7 +1,6 @@
 import { DirStructure, getDirStructure } from "@/app/blog/utils";
 import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { Breadcrumbs } from "./utils";
 
 function File({ fileName, path }: { fileName: string; path: string }) {
   if (fileName === "index") return;
@@ -23,9 +22,7 @@ function Folder({ folder, path }: { folder: DirStructure; path: string }) {
     folder.files.length === 1 && folder.files[0] === "index";
 
   return (
-    <div
-      className={`border-l-2 ${!hasOnlyIndexMdxDir ? "border-lime-200/40" : "border-transparent"}`}
-    >
+    <div>
       <Link
         href={path}
         className={`mt-2 flex items-center gap-2 rounded px-2 py-1 hover:bg-slate-800/60 ${hasIndexMdxDir ? "text-slate-300" : "text-slate-400"} ${!hasOnlyIndexMdxDir ? "bg-slate-800/40" : ""}`}
@@ -37,7 +34,9 @@ function Folder({ folder, path }: { folder: DirStructure; path: string }) {
         )}
         {folder.name}
       </Link>
-      <ul className="pl-10">
+      <ul
+        className={`border-l-2 ${!hasOnlyIndexMdxDir ? "border-lime-200/40" : "border-transparent"} ml-3 pl-2`}
+      >
         {folder.folders.map((fld) => (
           <li key={fld.name}>
             <Folder folder={fld} path={path + "/" + fld.name} />
@@ -58,16 +57,8 @@ export default function Structure({ slug }: { slug: string[] }) {
   const path = "/blog/" + slug.join("/");
 
   return (
-    <div className="flex flex-col gap-6">
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: "Blog", path: "blog" },
-          ...slug.map((dir) => ({ label: dir })),
-        ]}
-      />
-      <div>
-        <Folder folder={dirStructure} path={path} />
-      </div>
+    <div>
+      <Folder folder={dirStructure} path={path} />
     </div>
   );
 }
