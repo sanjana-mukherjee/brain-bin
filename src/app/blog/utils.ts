@@ -45,7 +45,9 @@ async function fetchPosts(dir: string) {
       const rawContent = readMDXFile(path.join(dir, ...subDirs, fileName));
       const { frontmatter, content } = await getMDXData(rawContent);
       const fileNameWOExt = path.basename(fileName, path.extname(fileName));
-      const slug = [...subDirs, fileNameWOExt].join("/");
+      const slug = (
+        fileNameWOExt === "index" ? subDirs : [...subDirs, fileNameWOExt]
+      ).join("/");
 
       return { slug, frontmatter, content, subDirs };
     }),
