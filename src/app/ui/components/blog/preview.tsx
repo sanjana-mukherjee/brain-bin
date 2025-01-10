@@ -47,7 +47,6 @@ export function PreviewDisplay({
 export function PreviewCard({
   slug,
   title,
-  tags,
   date,
   code,
   summary,
