@@ -33,12 +33,14 @@ export default async function Page(props: {
         ]}
       />
       <div className="grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,2.5fr)_1fr] lg:gap-x-10 xl:gap-x-16">
-        <div className="order-1 flex flex-col gap-8 lg:order-2">
-          <Tags tags={frontmatter.tags} />
-          <BlogDate date={frontmatter.date} />
-          <div className="my-10 border-y border-slate-800 py-10">
-            <Structure slug={subDirs} />
+        <div className="order-1 flex flex-col gap-14 lg:order-2">
+          <div>
+            <Tags tags={frontmatter.tags} />
+            <div className="mt-2">
+              <BlogDate date={frontmatter.date} />
+            </div>
           </div>
+          <Structure slug={subDirs} />
           <div className="hidden lg:block">
             <LatestBlogs type="preview" />
           </div>

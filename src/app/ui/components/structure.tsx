@@ -16,26 +16,28 @@ function File({ fileName, path }: { fileName: string; path: string }) {
 }
 
 function Folder({ folder, path }: { folder: DirStructure; path: string }) {
-  const hasIndexMdxDir =
+  const dirHasIndexMdx =
     folder.files.findIndex((file) => file === "index") !== -1;
-  const hasOnlyIndexMdxDir =
-    folder.files.length === 1 && folder.files[0] === "index";
+  const dirOnlyHasIndexMdx =
+    folder.folders.length === 0 &&
+    folder.files.length === 1 &&
+    folder.files[0] === "index";
 
   return (
     <div>
       <Link
         href={path}
-        className={`mt-2 flex items-center gap-2 rounded px-2 py-1 hover:bg-slate-800/60 ${hasIndexMdxDir ? "text-slate-300" : "text-slate-400"} ${!hasOnlyIndexMdxDir ? "bg-slate-800/40" : ""}`}
+        className={`mt-2 flex items-center gap-2 rounded px-2 py-1 hover:bg-slate-800/60 ${dirHasIndexMdx ? "text-slate-300" : "text-slate-400"} ${!dirOnlyHasIndexMdx ? "bg-slate-800/40" : ""}`}
       >
-        {!hasIndexMdxDir ? (
+        {!dirHasIndexMdx ? (
           <FolderIcon className="h-4 w-4" />
         ) : (
           <DocumentIcon className="h-4 w-4 text-lime-200/90" />
         )}
-        {folder.name}
+        {folder.name.startsWith("_") ? "Blog" : folder.name}
       </Link>
       <ul
-        className={`border-l-2 ${!hasOnlyIndexMdxDir ? "border-lime-200/40" : "border-transparent"} ml-3 pl-2`}
+        className={`border-l-2 ${!dirOnlyHasIndexMdx ? "border-lime-200/40" : "border-transparent"} ml-3 pl-2`}
       >
         {folder.folders.map((fld) => (
           <li key={fld.name}>
@@ -53,11 +55,22 @@ function Folder({ folder, path }: { folder: DirStructure; path: string }) {
 }
 
 export default function Structure({ slug }: { slug: string[] }) {
-  const dirStructure = getDirStructure(slug);
-  const path = "/blog/" + slug.join("/");
+  let dirStructure = getDirStructure(slug);
+  let path = "/blog/" + slug.join("/");
+
+  const hasOnlyIndexMdx =
+    dirStructure.folders.length === 0 &&
+    dirStructure.files.length === 1 &&
+    dirStructure.files[0] === "index";
+
+  if (hasOnlyIndexMdx) {
+    const parentSlug = slug.slice(0, slug.length - 1);
+    dirStructure = getDirStructure(parentSlug);
+    path = "/blog/" + parentSlug.join("/");
+  }
 
   return (
-    <div>
+    <div className="rounded border-2 border-slate-800/40 p-2 pt-0">
       <Folder folder={dirStructure} path={path} />
     </div>
   );
