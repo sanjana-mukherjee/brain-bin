@@ -1,9 +1,5 @@
-import Link from "next/link";
+import Structure from "./ui/components/structure";
 
 export default function Page() {
-  return (
-    <Link href="/blog" className="text-sky-400 hover:underline">
-      Blogs
-    </Link>
-  );
+  return <Structure slug={[]} />;
 }
