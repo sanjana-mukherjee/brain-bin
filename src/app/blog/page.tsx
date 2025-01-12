@@ -1,12 +1,5 @@
-import { LatestBlogs } from "@/app/ui/components/blog/preview";
+import Structure from "../ui/components/structure";
 
-export default function Home() {
-  return (
-    <main>
-      <h2 className="text-5xl font-bold text-yellow-100/90">Latest Blogs</h2>
-      <div className="mt-12">
-        <LatestBlogs />
-      </div>
-    </main>
-  );
+export default function Page() {
+  return <Structure slug={[]} />;
 }
