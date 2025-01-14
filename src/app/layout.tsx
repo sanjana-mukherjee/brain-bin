@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { space_grotesk } from "./ui/fonts";
+import { space_grotesk, space_mono } from "@/app/ui/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${space_grotesk.className} flex min-h-svh flex-col antialiased`}
+        className={`${space_grotesk.variable} ${space_mono.variable} flex min-h-svh flex-col font-sans antialiased`}
       >
         <nav className="bg-slate-800/50 px-10 py-6">
           <div className="h-4 w-32 rounded bg-slate-400/80"></div>

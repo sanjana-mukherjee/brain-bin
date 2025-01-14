@@ -1,6 +1,5 @@
 import hljs from "highlight.js";
 import "highlight.js/styles/night-owl.css";
-import { space_mono } from "@/app/ui/fonts";
 // import "highlight.js/styles/tokyo-night-dark.css";
 // import "highlight.js/styles/rose-pine.css";
 
@@ -18,7 +17,7 @@ function CodeBlock({
 
   return (
     <code
-      className={`${space_mono.className} ${className} mx-0.5 rounded bg-slate-700/50 px-2 text-sm ${language === "text" ? "text-yellow-100/90" : ""}`}
+      className={`${className} mx-0.5 rounded bg-slate-700/50 px-2 font-mono text-sm ${language === "text" ? "text-yellow-100/90" : ""}`}
       dangerouslySetInnerHTML={{ __html: highlighted }}
     />
   );
