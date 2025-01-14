@@ -1,5 +1,5 @@
 import { getBlogPosts } from "@/app/blog/utils";
-import { CustomMDX } from "../mdx";
+import { CustomMDX } from "@/app/ui/components/markdown/index";
 import { BlogDate, Tags } from "../utils";
 import Link from "next/link";
 

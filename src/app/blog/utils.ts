@@ -1,7 +1,7 @@
 import fs from "fs";
 import { compileMDX } from "next-mdx-remote/rsc";
 import path from "path";
-import { components } from "../ui/components/mdx";
+import { components } from "@/app/ui/components/markdown/index";
 
 function getAllMDXFiles(
   dir: string,

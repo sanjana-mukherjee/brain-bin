@@ -1,4 +1,4 @@
-import { RenderMDX } from "@/app/ui/components/mdx";
+import { RenderMDX } from "@/app/ui/components/markdown/index";
 import { getBlogPost } from "../utils";
 import { BlogDate, Breadcrumbs, Tags } from "@/app/ui/components/utils";
 import Structure from "@/app/ui/components/structure";
