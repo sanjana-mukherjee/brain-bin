@@ -1,8 +1,10 @@
-import { RenderMDX } from "@/app/ui/components/markdown/index";
+import { RenderMDX } from "@/app/ui/components/blog/markdown/index";
 import { getBlogPost } from "../utils";
-import { BlogDate, Breadcrumbs, Tags } from "@/app/ui/components/utils";
-import Structure from "@/app/ui/components/structure";
-import { LatestBlogs } from "@/app/ui/components/blog/preview";
+import Breadcrumbs from "@/app/ui/components/utils/breadcrumbs";
+import Tags from "@/app/ui/components/blog/tags";
+import BlogDate from "@/app/ui/components/blog/date";
+import Structure from "@/app/ui/components/utils/structure";
+import LatestBlogs from "@/app/ui/components/blog/preview/latest";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;

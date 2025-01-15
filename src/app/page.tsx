@@ -1,4 +1,4 @@
-import { LatestBlogs } from "@/app/ui/components/blog/preview";
+import LatestBlogs from "@/app/ui/components/blog/preview/latest";
 
 export default function Home() {
   return (
